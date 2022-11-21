@@ -7,7 +7,7 @@ LARGURA = 600
 ALTURA = 400
 janela = pygame.display.set_mode((LARGURA, ALTURA))
 pygame.display.set_caption('Snake Nake')
-background = pygame.image.load('tela principal.png').convert()
+background = pygame.image.load('tela_principal1.png').convert_alpha()
 game = True
 
 while game:

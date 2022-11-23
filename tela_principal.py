@@ -20,6 +20,11 @@ mode = font.render('Escolha seu modo:', True, (0, 0, 0))
 
 while game:
     for event in pygame.event.get():
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            x = event.pos[0]
+            y = event.pos[1]
+            if botao1.collidepoint((x,y)):
+                print('camila')
         if event.type == pygame.QUIT:
             game = False
             time.sleep(2)
@@ -30,9 +35,10 @@ while game:
     vertices1 = [(75, 300), (175, 300), (175, 350), (75, 350)]
     vertices2 = [(250, 300), (350, 300), (350, 350), (250, 350)]
     vertices3 = [(425, 300), (525, 300), (525, 350), (425, 350)]
-    pygame.draw.polygon(janela, cor, vertices1)
-    pygame.draw.polygon(janela, cor, vertices2)
-    pygame.draw.polygon(janela, cor, vertices3)
+    botao1 = pygame.draw.polygon(janela, cor, vertices1)
+    botao2 = pygame.draw.polygon(janela, cor, vertices2)
+    botao3 = pygame.draw.polygon(janela, cor, vertices3)
+    
     janela.blit(background, (190, 60))
     janela.blit(mode, (190, 250))
     janela.blit(text1, (82, 313))

@@ -23,6 +23,12 @@ def init_screen(janela):
                 if botao1.collidepoint((x,y)):
                     print('camila')
                     return 3
+                if botao2.collidepoint((x,y)):
+                    print('joao')
+                    return 3
+                if botao3.collidepoint((x,y)):
+                    print('matheus')
+                    return 3
             if event.type == pygame.QUIT:
                 game = False
                 time.sleep(2)

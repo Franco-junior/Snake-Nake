@@ -1,47 +1,110 @@
 import pygame
 import time
+import random
 
 def game_screen1(janela):
     # Variável para o ajuste de velocidade
     clock = pygame.time.Clock()
+    FPS = 30
     background = pygame.image.load('tela_principal1_ok.png').convert_alpha()
     game = True
+    LARGURA = 600
+    ALTURA = 400
 
     # Assets
-    font = pygame.font.SysFont('Comics', 35)
-    text1 = font.render('Normal', True, (0, 0, 255))
-    text2 = font.render('Vs PC', True, (0, 0, 255))
-    text3 = font.render('Crazy', True, (0, 0, 255))
-    mode = font.render('Escolha seu modo:', True, (0, 0, 0))
+    font = pygame.font.SysFont('Comics', 48)
+    meteor_img = pygame.image.load('assets/img/meteorBrown_med1.png').convert_alpha()
+    meteor_img = pygame.transform.scale(meteor_img, (20, 15))
+    fruta_img = pygame.image.load('assets/img/laserRed16.png').convert_alpha()
+    fruta_img = pygame.transform.scale(fruta_img, (20, 15))
 
+    # velocidade cobra
+    cobra_speed_x = 0
+    cobra_speed_y = 0
+
+    # Posição cobra
+    cobra_x = (ALTURA/2)
+    cobra_y = (LARGURA/2)
+    cobra = 6
+    
+    # Estrutura
+
+    class Ship(pygame.sprite.Sprite):
+
+        def __init__(self, img):
+            
+            pygame.sprite.Sprite.__init__(self)
+            
+            self.image = img
+            self.rect = self.image.get_rect()
+            self.rect.centerx = 300
+            self.rect.bottom = 200
+            self.speedx = 0
+            self.speedy = 0
+
+        def update(self):
+        # Atualização da posição da nave
+            self.rect.x += self.speedx
+            self.rect.y += self.speedy
+
+    class Fruta(pygame.sprite.Sprite):
+        def __init__(self, img):
+            # Construtor da classe mãe (Sprite).
+            pygame.sprite.Sprite.__init__(self)
+
+            self.image = img
+            self.rect = self.image.get_rect()
+            self.rect.x = random.randint(0, LARGURA)
+            self.rect.y = random.randint(0, ALTURA)
+
+
+    all_sprites = pygame.sprite.Group()
+    all_frutas = pygame.sprite.Group()
+    cobra = Ship(meteor_img)
+    fruta = Fruta(fruta_img)
+    all_sprites.add(fruta)
+    all_sprites.add(cobra)
+    all_frutas.add(fruta)
 
     while game:
+        clock.tick(FPS)     
+
+
         for event in pygame.event.get():
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                x = event.pos[0]
-                y = event.pos[1]
-                if botao1.collidepoint((x,y)):
-                    print('camila')
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RIGHT:
+                    cobra.speedy = 0
+                    cobra.speedx = +4
+                if event.key == pygame.K_LEFT:
+                    cobra.speedy = 0
+                    cobra.speedx = -4
+                if event.key == pygame.K_DOWN:
+                    cobra.speedy = +4 
+                    cobra.speedx = 0
+                if event.key == pygame.K_UP:
+                    cobra.speedy = -4
+                    cobra.speedx = 0
+                    
             if event.type == pygame.QUIT:
                 game = False
                 time.sleep(2)
 
+                
+        # Atualizando a posição das sprite
+        all_sprites.update()
+        hits = pygame.sprite.spritecollide(cobra, all_frutas, True)
+        if hits != []:
+            print('joao')
+        for meteor in hits: # As chaves são os elementos da cobra que colidiram com alguma fruta
+        # A fruta é comida e precisa ser recriada
+            m = Fruta(fruta_img)
+            all_sprites.add(m)
+            all_frutas.add(m)
 
         janela.fill((8, 91, 7))
         cor = (255, 255, 0)
-        vertices1 = [(75, 300), (175, 300), (175, 350), (75, 350)]
-        vertices2 = [(250, 300), (350, 300), (350, 350), (250, 350)]
-        vertices3 = [(425, 300), (525, 300), (525, 350), (425, 350)]
-        botao1 = pygame.draw.polygon(janela, cor, vertices1)
-        #botao2 = pygame.draw.polygon(janela, cor, vertices2)
-        #botao3 = pygame.draw.polygon(janela, cor, vertices3)
         
-        janela.blit(background, (190, 60))
-        janela.blit(mode, (190, 250))
-        janela.blit(text1, (82, 313))
-        #janela.blit(text2, (265, 314))
-        #janela.blit(text3, (440, 315))
-        background = pygame.transform.scale(background, (200, 160))
+        all_sprites.draw(janela)
 
         pygame.display.update()
 

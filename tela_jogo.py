@@ -1,6 +1,7 @@
 import pygame
 import time
 import random
+from Snake_Nake import LARGURA, ALTURA
 
 def game_screen1(janela):
     # Variável para o ajuste de velocidade
@@ -46,6 +47,16 @@ def game_screen1(janela):
         # Atualização da posição da nave
             self.rect.x += self.speedx
             self.rect.y += self.speedy
+
+            #Não permitir sair da tela
+            if self.rect.right > LARGURA:
+                self.rect.right = LARGURA
+            if self.rect.left < 0:
+                self.rect.left = 0
+            if self.rect.top > ALTURA:
+                self.rect.top = ALTURA
+            if self.rect.bottom < 0:
+                self.rect.bottom = 0
 
     class Fruta(pygame.sprite.Sprite):
         def __init__(self, img):

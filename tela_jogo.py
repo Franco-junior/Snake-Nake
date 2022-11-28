@@ -3,10 +3,10 @@ import time
 import random
 from tela_principal import LARGURA, ALTURA
 
+FPS = 30
 def game_screen1(janela):
     # Variável para o ajuste de velocidade
     clock = pygame.time.Clock()
-    FPS = 30
     background = pygame.image.load('tela_principal1_ok.png').convert_alpha()
     game = True
 
@@ -63,8 +63,8 @@ def game_screen1(janela):
 
             self.image = img
             self.rect = self.image.get_rect()
-            self.rect.x = random.randint(0, LARGURA-10)
-            self.rect.y = random.randint(0, ALTURA-10)
+            self.rect.x = random.randint(0, LARGURA-30)
+            self.rect.y = random.randint(0, ALTURA-30)
 
 
     all_sprites = pygame.sprite.Group()

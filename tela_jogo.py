@@ -1,7 +1,7 @@
 import pygame
 import time
 import random
-from Snake_Nake import LARGURA, ALTURA
+from tela_principal import LARGURA, ALTURA
 
 def game_screen1(janela):
     # Variável para o ajuste de velocidade
@@ -9,8 +9,6 @@ def game_screen1(janela):
     FPS = 30
     background = pygame.image.load('tela_principal1_ok.png').convert_alpha()
     game = True
-    LARGURA = 600
-    ALTURA = 400
 
     # Assets
     font = pygame.font.SysFont('Comics', 48)
@@ -65,8 +63,8 @@ def game_screen1(janela):
 
             self.image = img
             self.rect = self.image.get_rect()
-            self.rect.x = random.randint(0, LARGURA)
-            self.rect.y = random.randint(0, ALTURA)
+            self.rect.x = random.randint(0, LARGURA-10)
+            self.rect.y = random.randint(0, ALTURA-10)
 
 
     all_sprites = pygame.sprite.Group()

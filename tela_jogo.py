@@ -1,8 +1,9 @@
 import pygame
 import time
 import random
-from tela_principal import LARGURA, ALTURA
 
+LARGURA = 600
+ALTURA = 400
 FPS = 30
 def game_screen1(janela):
     # Variável para o ajuste de velocidade

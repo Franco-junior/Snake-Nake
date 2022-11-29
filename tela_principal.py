@@ -1,7 +1,6 @@
 import pygame
 import time
 
-pygame.init()
 
 LARGURA = 600
 ALTURA = 400
@@ -24,7 +23,9 @@ while game:
             x = event.pos[0]
             y = event.pos[1]
             if botao1.collidepoint((x,y)):
-                print('camila')
+                print('camilaaaaa')
+                state = 3
+                game = False
         if event.type == pygame.QUIT:
             game = False
             time.sleep(2)

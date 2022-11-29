@@ -1,6 +1,5 @@
 import pygame
 import time
-
 FPS = 30
 def init_screen(janela):
     #define o relogio do jogo
@@ -17,7 +16,7 @@ def init_screen(janela):
     mode = font.render('Escolha seu modo:', True, (0, 0, 0))
 
 
-    while game:
+    while game == True:
         clock.tick(FPS)
         #verifica qual botão foi clicado para início do jogo de acordo com a fase escolhida
         for event in pygame.event.get():
@@ -40,6 +39,21 @@ def init_screen(janela):
                 game = False
                 state = 2
                 time.sleep(2)
+            '''if event.type == pygame.KEYDOWN:
+                if event.type == pygame.K_a:
+                    print('funcionou A')
+                    state = 3
+                    game = False
+                if event.type == pygame.K_b:
+                    state = 3
+                    game = False
+                if event.type == pygame.K_c:
+                    state = 3
+                    game = False
+            if event.type == pygame.QUIT:
+                state = 2
+                game = False'''
+            
 
             janela.fill((8, 91, 7))
             cor = (255, 255, 0)

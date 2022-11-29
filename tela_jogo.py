@@ -43,19 +43,23 @@ def game_screen1(janela):
             self.speedy = 0
 
         def update(self):
-        # Atualização da posição da nave
+        # Atualização da posição da cobra
             self.rect.x += self.speedx
             self.rect.y += self.speedy
 
             #Não permitir sair da tela
             if self.rect.right > LARGURA:
                 self.rect.right = LARGURA
+                pygame.quit()
             if self.rect.left < 0:
                 self.rect.left = 0
-            if self.rect.top > ALTURA:
-                self.rect.top = ALTURA
-            if self.rect.bottom < 0:
-                self.rect.bottom = 0
+                pygame.quit()
+            if self.rect.top > ALTURA - 15:
+                self.rect.top = ALTURA - 15
+                pygame.quit()
+            if self.rect.bottom < 15:
+                self.rect.bottom = 15
+                pygame.quit()
 
     class Fruta(pygame.sprite.Sprite):
         def __init__(self, img):

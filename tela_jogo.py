@@ -13,6 +13,8 @@ def game_screen1(janela):
 
     # Assets
     font = pygame.font.SysFont(None, 48)
+    cobrinha = pygame.image.load('cobrinha.png').convert_alpha()
+    cobrinha = pygame.transform.scale(cobrinha, (30,15))
     meteor_img = pygame.image.load('assets/img/meteorBrown_med1.png').convert_alpha()
     meteor_img = pygame.transform.scale(meteor_img, (20, 15))
     fruta_img = pygame.image.load('assets/img/laserRed16.png').convert_alpha()
@@ -99,8 +101,8 @@ def game_screen1(janela):
     all_sprites = pygame.sprite.Group()
     all_frutas = pygame.sprite.Group()
     all_corpo = pygame.sprite.Group()
-    cobra = Ship(meteor_img)
-    corpo = Corpo(meteor_img)
+    cobra = Ship(cobrinha)
+    corpo = Corpo(cobrinha)
     fruta = Fruta(fruta_img)
     all_sprites.add(fruta)
     all_sprites.add(cobra)
@@ -158,7 +160,7 @@ def game_screen1(janela):
         for k in hits: # As chaves são os elementos da cobra que colidiram com alguma fruta
         # A fruta é comida e precisa ser recriada
             m = Fruta(fruta_img)
-            alo = Corpo(meteor_img)
+            alo = Corpo(cobrinha)
             all_sprites.add(alo)
             all_sprites.add(m)
             all_frutas.add(m)

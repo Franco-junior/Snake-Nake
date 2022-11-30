@@ -8,11 +8,11 @@ FPS = 30
 def game_screen1(janela):
     # Variável para o ajuste de velocidade
     clock = pygame.time.Clock()
-    background = pygame.image.load('tela_principal1_ok.png').convert_alpha()
+    background = pygame.image.load('fundo-de-textura-grunge-verde_1409-1374.jpg').convert_alpha()
     game = True
 
     # Assets
-    font = pygame.font.SysFont('Comics', 48)
+    font = pygame.font.SysFont(None, 48)
     meteor_img = pygame.image.load('assets/img/meteorBrown_med1.png').convert_alpha()
     meteor_img = pygame.transform.scale(meteor_img, (20, 15))
     fruta_img = pygame.image.load('assets/img/laserRed16.png').convert_alpha()
@@ -20,17 +20,15 @@ def game_screen1(janela):
     
     #Função para aumentar a cobra
     
-    #def aumenta_cobra(lista_cobra):
-        #for XeY in lista_cobra:
-            #XeY = [x, y]
-            #XeY[0] = x
-            #XeY[1] = y
-
-            #pygame.draw.rect(janela, (0,255,0), (XeY[0], XeY[1], 20, 20))
+    '''def aumenta_cobra(lista_cobra):
+        for i in range(len(lista_cobra)):
+            X = lista_cobra[i][0]
+            Y = lista_cobra[i][1]
+            pygame.draw.rect(janela, (0,255,0), (X, Y, 20, 20))'''
 
     # velocidade cobra
-    #cobra_speed_x = 0
-    #cobra_speed_y = 0
+    cobra_speed_x = 0
+    cobra_speed_y = 0
 
     # Posição cobra
     
@@ -39,6 +37,7 @@ def game_screen1(janela):
     lista_cobra = [cobra_x, cobra_y]
     cobra = 6
     
+    score = 0
     # Estrutura
 
     class Ship(pygame.sprite.Sprite):
@@ -62,16 +61,12 @@ def game_screen1(janela):
             #Não permitir sair da tela
             if self.rect.right > LARGURA:
                 self.rect.right = LARGURA
-                pygame.quit()
             if self.rect.left < 0:
                 self.rect.left = 0
-                pygame.quit()
             if self.rect.top > ALTURA - 15:
                 self.rect.top = ALTURA - 15
-                pygame.quit()
             if self.rect.bottom < 15:
                 self.rect.bottom = 15
-                pygame.quit()
 
     class Fruta(pygame.sprite.Sprite):
         def __init__(self, img):
@@ -147,6 +142,7 @@ def game_screen1(janela):
             if event.type == pygame.QUIT:
                 game = False
                 time.sleep(2)
+        
 
                 
         # Atualizando a posição das sprite
@@ -156,6 +152,8 @@ def game_screen1(janela):
         if hits != []:
             lista_cobra[0] = corpo.rect.x
             lista_cobra[1] = corpo.rect.y
+            score += 100
+
             
         for k in hits: # As chaves são os elementos da cobra que colidiram com alguma fruta
         # A fruta é comida e precisa ser recriada
@@ -167,13 +165,20 @@ def game_screen1(janela):
             all_corpo.add(alo)
 
         # Aumentando a cobra
-        #lista_cabeca = []
-        #lista_cabeca.append(cobra_x)
-        #lista_cabeca.append(cobra_y)
-        #lista_cobra.append(lista_cabeca)
-        #aumenta_cobra(lista_cobra)
+        '''lista_cabeca = []
+        lista_cabeca.append(cobra_x)
+        lista_cabeca.append(cobra_y)
+        lista_cobra.append(lista_cabeca)
+        aumenta_cobra(lista_cobra)'''
 
         janela.fill((8, 91, 7))
+        janela.blit(background, (0, 0))
+        background = pygame.transform.scale(background, (600, 400))
+        #texto do score
+        texto_score = font.render('SCORE: {0}'.format(score), True, (255, 255, 255))
+        score_rect = texto_score.get_rect()
+        score_rect.midtop = (LARGURA / 2,  10)
+        janela.blit(texto_score, score_rect)
         cor = (255, 255, 0)
         
         all_sprites.draw(janela)

@@ -54,9 +54,11 @@ def init_screen(janela):
                 state = 2
                 game = False'''
             
-
+            #preenche tela
             janela.fill((8, 91, 7))
             cor = (255, 255, 0)
+            
+            #criando os botões
             vertices1 = [(75, 300), (175, 300), (175, 350), (75, 350)]
             vertices2 = [(250, 300), (350, 300), (350, 350), (250, 350)]
             vertices3 = [(425, 300), (525, 300), (525, 350), (425, 350)]
@@ -64,6 +66,7 @@ def init_screen(janela):
             botao2 = pygame.draw.polygon(janela, cor, vertices2)
             botao3 = pygame.draw.polygon(janela, cor, vertices3)
         
+            #alterando posição dos textos
             janela.blit(background, (190, 60))
             janela.blit(mode, (190, 250))
             janela.blit(text1, (82, 313))

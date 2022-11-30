@@ -60,21 +60,30 @@ def game_screen1(janela):
             self.rect.bottom = 200
             self.speedx = 0
             self.speedy = 0
+            self.x_anterior = self.rect.x
+            self.y_anterior = self.rect.y
 
         def update(self):
         # Atualização da posição da cobra
+            self.x_anterior = self.rect.x
+            self.y_anterior = self.rect.y
             self.rect.x += self.speedx
             self.rect.y += self.speedy
+            
 
             #Não permitir sair da tela
             if self.rect.right > LARGURA:
                 self.rect.right = LARGURA
+                pygame.quit()
             if self.rect.left < 0:
                 self.rect.left = 0
+                pygame.quit()
             if self.rect.top > ALTURA - 15:
                 self.rect.top = ALTURA - 15
+                pygame.quit()
             if self.rect.bottom < 15:
                 self.rect.bottom = 15
+                pygame.quit()
 
     class Fruta(pygame.sprite.Sprite):
         def __init__(self, img):
@@ -88,27 +97,43 @@ def game_screen1(janela):
 
     class Corpo(pygame.sprite.Sprite):
 
-        def __init__(self, img):
+        def __init__(self, img, corpo):
             
             pygame.sprite.Sprite.__init__(self)
             
             self.image = img
             self.rect = self.image.get_rect()
-            self.rect.centerx = lista_cobra[0]
-            self.rect.bottom = lista_cobra[1]
-            self.speedx = cobra.speedx
-            self.speedy = cobra.speedy
+            self.speedx = corpo.speedx
+            self.speedy = corpo.speedy
+            self.corpo = corpo
+            if self.speedx > 0:
+                self.rect.x = corpo.rect.x - 30
+                self.rect.y = corpo.rect.y
+            elif self.speedx < 0:
+                self.rect.x = corpo.rect.x + 30
+                self.rect.y = corpo.rect.y
+            elif self.speedy > 0:
+                self.rect.x = corpo.rect.x
+                self.rect.y = corpo.rect.y - 15
+            elif self.speedy < 0:
+                self.rect.x = corpo.rect.x
+                self.rect.y = corpo.rect.y + 15
+            self.x_anterior = self.rect.x
+            self.y_anterior = self.rect.y
 
         def update(self):
         # Atualização da posição da cobra
-            self.rect.x += cobra.speedx
-            self.rect.y += cobra.speedy
+            self.x_anterior = self.rect.x
+            self.y_anterior = self.rect.y
+            self.rect.x = self.corpo.x_anterior 
+            self.rect.y = self.corpo.y_anterior 
 
     all_sprites = pygame.sprite.Group()
     all_frutas = pygame.sprite.Group()
     all_corpo = pygame.sprite.Group()
     cobra = Ship(cobrinha)
-    corpo = Corpo(cobrinha)
+    #corpo = Corpo(cobrinha, lista_cobra[0], lista_cobra[1])
+    ultimo_pedaco = cobra
     fruta = Fruta(fruta_img)
     all_sprites.add(fruta)
     all_sprites.add(cobra)
@@ -123,29 +148,29 @@ def game_screen1(janela):
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RIGHT:
-                    if cobra.speedx == -4:
+                    if cobra.speedx == -10:
                         pass
                     else:
-                        cobra.speedx = +4
+                        cobra.speedx = +10
                         cobra.speedy = 0
                 if event.key == pygame.K_LEFT:
-                    if cobra.speedx == 4:
+                    if cobra.speedx == 10:
                         pass
                     else:
-                        cobra.speedx = -4
+                        cobra.speedx = -10
                         cobra.speedy = 0
                 if event.key == pygame.K_DOWN:
-                    if cobra.speedy == -4:
+                    if cobra.speedy == -10:
                         pass
                     else:
                         cobra.speedx = 0
-                        cobra.speedy = 4
+                        cobra.speedy = 10
                 if event.key == pygame.K_UP:
-                    if cobra.speedy == 4:
+                    if cobra.speedy == 10:
                         pass
                     else:
                         cobra.speedx = 0
-                        cobra.speedy = -4
+                        cobra.speedy = -10
                     
             if event.type == pygame.QUIT:
                 game = False
@@ -154,12 +179,12 @@ def game_screen1(janela):
 
                 
         # Atualizando a posição das sprite
-        lista_cobra = [corpo.rect.x, cobra.rect.y]
+        lista_cobra = [cobra.rect.x, cobra.rect.y]
         all_sprites.update()
         hits = pygame.sprite.spritecollide(cobra, all_frutas, True)
         if hits != []:
-            lista_cobra[0] = corpo.rect.x
-            lista_cobra[1] = corpo.rect.y
+            lista_cobra[0] = cobra.rect.x
+            lista_cobra[1] = cobra.rect.y
             pygame.mixer.music.load('apple_bite.ogg')
             pygame.mixer.music.set_volume(0.4)
             pygame.mixer.music.play(0)
@@ -169,11 +194,17 @@ def game_screen1(janela):
         for k in hits: # As chaves são os elementos da cobra que colidiram com alguma fruta
         # A fruta é comida e precisa ser recriada
             m = Fruta(fruta_img)
-            alo = Corpo(cobrinha)
+            alo = Corpo(cobrinha, ultimo_pedaco)
+            ultimo_pedaco = alo
             all_sprites.add(alo)
             all_sprites.add(m)
             all_frutas.add(m)
             all_corpo.add(alo)
+
+        #hits1 = pygame.sprite.spritecollide(cobra, all_corpo, True)
+        #if len(hits1) > 1:
+            #game = False
+
 
         # Aumentando a cobra
         '''lista_cabeca = []

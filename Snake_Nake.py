@@ -7,9 +7,11 @@ from tela_inicial import init_screen
 from tela_jogo import game_screen1
 
 
-
 pygame.init()
 pygame.mixer.init()
+pygame.mixer.music.load('som do jogo.mp3')
+pygame.mixer.music.set_volume(0.4)
+pygame.mixer.music.play(-1)
 
 # ----- Gera tela principal
 LARGURA = 600

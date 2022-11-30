@@ -17,7 +17,7 @@ def game_screen1(janela):
     cobrinha = pygame.transform.scale(cobrinha, (30,15))
     meteor_img = pygame.image.load('assets/img/meteorBrown_med1.png').convert_alpha()
     meteor_img = pygame.transform.scale(meteor_img, (20, 15))
-    fruta_img = pygame.image.load('assets/img/laserRed16.png').convert_alpha()
+    fruta_img = pygame.image.load('comida.png').convert_alpha()
     fruta_img = pygame.transform.scale(fruta_img, (20, 15))
     
     #Função para aumentar a cobra
@@ -154,6 +154,9 @@ def game_screen1(janela):
         if hits != []:
             lista_cobra[0] = corpo.rect.x
             lista_cobra[1] = corpo.rect.y
+            pygame.mixer.music.load('apple_bite.ogg')
+            pygame.mixer.music.set_volume(0.4)
+            pygame.mixer.music.play(0)
             score += 100
 
             
